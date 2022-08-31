@@ -1,67 +1,44 @@
-//1// call
-var obj ={
-    num:2
-};
+class Student{
+    static count=0;
+    constructor(name,age,phoneNumber,boardMarks){
+        this.name=name;
+        this.age=age;
+        this.phoneNumber=phoneNumber;
+        this.boardMarks=boardMarks;
+        Student.count++;
+    }
+    static numberOfStudent(){
+        console.log(`number of students is ${Student.count}`);
+    }
+    collegeEligiblity(){
+        if(this.boardMarks>40)
+        console.log('Eligible');
+        else
+        console.log('Not eligible');
+    }
 
-var addToThis =function(a,b,c){
-    return this.num+a+b+c;
-};
-
-//console.log(addToThis.call(obj,5,6,7)); 
-
-//2// apply
-var arr=[5,6,7];
-
-//console.log(addToThis.apply(obj,arr));
-var obj2={num:8};
-//console.log(addToThis.apply(obj2,arr));
-
-//3// bind
-var bound = addToThis.bind(obj);
-
-//console.log(bound);
-//console.log(bound(1,2,3));
-
-//4//
-let Student={
-    age:20
 }
-function printAge(){
-    console.log('Student age is '+this.age);
-}
-// using call
-printAge.call(Student);
-// using bind
-let printStudnetAge=printAge.bind(Student);
-printStudnetAge();
+let student=new Student(5);
+student[0]=new Student('Hitesh',25,'23422342',67);
+student[1]=new Student('Shweta',14,'3345455',98);
+student[2]=new Student('Mohit',24,'3456643',95);
+student[3]=new Student('Tanishk',11,'234544365',90);
+student[4]=new Student('Pradeep',27,'23455687',33);
 
-
-//1// currying
-
-// currying using bind method
-let multiply=function(x,y){
-    console.log(x*y);
-}
-
-let multiplyBytwo=multiply.bind(this,2);
-multiplyBytwo(4);
-
-// let multiplyByThree=multiply.bind(this,3,4);
-// multiplyByThree(6);
-
-let multiplyByThree=multiply.bind(this,3);
-multiplyByThree(6);
-
-
-// currying using closure
-function add(x){
-    return function(y){
-        console.log(x+y);
+function eligibleForPlacement(marksSetByCompany){
+    return function(ageSetByCompany){
+        if(this.boardMarks>marksSetByCompany && this.age>ageSetByCompany)
+        console.log('Eligible for placement');
+        else
+        console.log('Not eligible for placement');
     }
 }
+let companyGoogle=eligibleForPlacement(90);
+let companyTCS=eligibleForPlacement(60);
+for(let i=0;i<5;i++){
+    companyGoogle.call(student[i],20);
+}
 
-let addByTwo=add(2);
-addByTwo(6);
-
-let addByThree=add(3);
-addByThree(8);
+for(let i=0;i<5;i++){
+    companyTCS.call(student[i],20);
+}
